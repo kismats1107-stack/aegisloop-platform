@@ -1,0 +1,32 @@
+/* ---------- UAV-1 feed (operator monitor) */
+.uf { position: absolute; inset: 60px 0 0 72px; z-index: 5; display: grid; grid-template-columns: 1fr 380px; background: #05070a; }
+.uf-cam { position: relative; overflow: hidden; }
+.uf-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.uf-hud { position: absolute; color: #fff; font-size: 12px; text-shadow: 0 1px 6px rgba(0,0,0,.6); display: flex; flex-direction: column; gap: 2px; }
+.uf-hud.tl { left: 20px; top: 18px; } .uf-hud.tr { right: 20px; top: 18px; text-align: right; font-family: var(--mono); }
+.uf-hud.bl { left: 20px; bottom: 20px; flex-direction: row; gap: 10px; }
+.uf-hud.br { right: 20px; bottom: 20px; text-align: right; font-family: var(--mono); opacity: .85; }
+.uf-hud b { font-size: 14px; font-weight: 600; letter-spacing: .02em; }
+.uf-hud small { font-size: 11px; color: rgba(255,255,255,.7); }
+.uf-hud.bl > div { min-width: 86px; padding: 8px 12px; border-radius: 10px; background: rgba(5,7,10,.6); border: 1px solid rgba(255,255,255,.12); backdrop-filter: blur(8px); font-family: var(--mono); }
+.uf-hud.bl small { display: block; letter-spacing: .1em; } .uf-hud.bl b { font-size: 16px; } .uf-hud b.low { color: #ffb020; }
+.uf-rec { display: inline-flex; align-items: center; gap: 6px; font: 700 11px var(--mono); letter-spacing: .12em; color: rgba(255,255,255,.6); }
+.uf-rec i { width: 8px; height: 8px; border-radius: 50%; background: #777; }
+.uf-rec.on { color: #fff; } .uf-rec.on i { background: #ff3b30; animation: ufblink 1.2s steps(2) infinite; }
+@keyframes ufblink { 50% { opacity: .2; } }
+.uf-legend { position: absolute; left: 50%; top: 18px; transform: translateX(-50%); display: flex; gap: 14px; align-items: center; padding: 8px 14px; border-radius: 999px; background: rgba(5,7,10,.7); border: 1px solid rgba(255,255,255,.12); color: #fff; font-size: 12px; }
+.uf-legend span { display: inline-flex; align-items: center; gap: 6px; } .uf-legend i { width: 10px; height: 10px; border-radius: 2px; }
+.uf-legend em { font-style: normal; color: rgba(255,255,255,.55); font-size: 11px; }
+.uf-side { background: #0c0f14; color: #e8eaf0; border-left: 1px solid rgba(255,255,255,.08); display: flex; flex-direction: column; min-height: 0; }
+.uf-side-h { display: flex; justify-content: space-between; align-items: center; padding: 18px 18px 6px; }
+.uf-side-h b { font-size: 15px; }
+.uf-counts { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,.7); }
+.uf-counts i { width: 8px; height: 8px; border-radius: 50%; } .uf-counts .sev { background: #ff4d40; } .uf-counts .hi { background: #ff9a3c; margin-left: 6px; }
+.uf-note { padding: 0 18px 10px; font-size: 11.5px; color: rgba(255,255,255,.5); line-height: 1.5; }
+.uf-list { list-style: none; margin: 0; padding: 0 12px 16px; overflow-y: auto; display: grid; gap: 8px; }
+.uf-empty { padding: 12px 6px; font-size: 13px; color: rgba(255,255,255,.5); }
+.uf-det { display: flex; gap: 10px; padding: 8px; border-radius: 12px; background: #131820; border: 1px solid rgba(255,255,255,.06); border-left: 3px solid var(--sev); }
+.uf-det img { width: 96px; height: 72px; border-radius: 8px; object-fit: cover; flex: none; background: #000; }
+.uf-det b { display: block; font-size: 13px; } .uf-det small { display: block; font-size: 11.5px; color: rgba(255,255,255,.55); margin-top: 2px; }
+.uf-sev { display: inline-block; margin-top: 3px; font: 700 11px var(--font); color: var(--sev); letter-spacing: .02em; }
+@media (max-width: 1100px) { .uf { grid-template-columns: 1fr; grid-template-rows: 60vh auto; } }

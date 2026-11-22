@@ -1,0 +1,37 @@
+{
+  "name": "aegisloop-platform",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "data": "node tools/build-antakya.mjs",
+    "gazebo": "node tools/export-gazebo.mjs",
+    "nexconn": "node server/nexconn-server.mjs",
+    "start": "node start.mjs"
+  },
+  "dependencies": {
+    "@nexconn/chat": "^26.2.1",
+    "lucide-react": "0.460.0",
+    "maplibre-gl": "4.7.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-router-dom": "6.28.0",
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "@types/geojson": "^7946.0.14",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "@types/three": "^0.160.0",
+    "@vitejs/plugin-react": "4.3.4",
+    "earcut": "3.2.4",
+    "typescript": "5.6.3",
+    "vite": "5.4.21"
+  },
+  "overrides": {
+    "rollup": "4.68.0"
+  }
+}

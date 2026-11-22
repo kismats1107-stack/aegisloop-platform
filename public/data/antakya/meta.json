@@ -1,0 +1,64 @@
+{
+  "id": "antakya-2023",
+  "title": "Antakya, Hatay — Kahramanmaraş earthquake sequence",
+  "event": {
+    "date": "2023-02-06",
+    "localTime": "04:17",
+    "tz": "TRT (UTC+3)",
+    "magnitude": "Mw 7.8",
+    "epicentre": "Pazarcık, Kahramanmaraş",
+    "aftershock": "Mw 7.5 Elbistan, 13:24 TRT"
+  },
+  "missionBounds": [
+    36.153856888238415,
+    36.20450543463676,
+    36.161650309517,
+    36.21079361286169
+  ],
+  "contextBounds": [
+    36.1466201399083,
+    36.19866641199932,
+    36.168887057847115,
+    36.21663263549913
+  ],
+  "center": [
+    36.157753598877704,
+    36.207649523749225
+  ],
+  "stats": {
+    "aoi11": {
+      "blocks": 3689,
+      "destroyed": 68,
+      "damaged": 212,
+      "possibly": 114,
+      "roadsBlocked": 70,
+      "camps": 107,
+      "barriers": 10
+    },
+    "mission": {
+      "blocks": 70,
+      "destroyed": 12,
+      "damaged": 29,
+      "possibly": 2,
+      "buildings": 148,
+      "buildingsAffected": 69,
+      "roadsBlocked": 18,
+      "heightsFromOsm": 3
+    }
+  },
+  "geometry": "OSM building footprints where mapped, graded by the containing Copernicus block; unmapped graded blocks shown as block massing. Heights from OSM tags where present, otherwise estimated (flagged). Destroyed structures shown as rubble with pre-event height retained.",
+  "sources": [
+    {
+      "name": "Copernicus EMS Rapid Mapping — EMSR648 AOI11 Antakya, Grading Monitoring 01",
+      "date": "2023-02-13",
+      "licence": "© European Union, Copernicus Emergency Management Service",
+      "url": "https://mapping.emergency.copernicus.eu/activations/EMSR648"
+    },
+    {
+      "name": "OpenStreetMap buildings",
+      "licence": "© OpenStreetMap contributors, ODbL",
+      "url": "https://www.openstreetmap.org/copyright",
+      "available": true
+    }
+  ]
+}

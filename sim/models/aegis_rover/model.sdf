@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!-- AegisLoop UGV-1 for the live Antakya world: kinematic ground vehicle.
+     Motion comes from the VelocityControl system (body-frame forward speed + yaw rate), like the drone.
+     Wheel-contact physics is deliberately not simulated: at the real-time factor used for the demo it made
+     turning in place unstable. The chassis keeps a collision box, so barriers and debris still block it.
+     Labelled "kinematic ground model" in the console. -->
+<sdf version="1.9">
+  <model name="aegis_rover">
+    <link name="base_link">
+      <pose>0 0 0.18 0 0 0</pose>
+      <gravity>false</gravity>
+      <inertial>
+        <mass>14.0</mass>
+        <inertia><ixx>0.42</ixx><iyy>0.80</iyy><izz>1.05</izz><ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia>
+      </inertial>
+      <collision name="chassis_c">
+        <pose>0 0 0.04 0 0 0</pose>
+        <geometry><box><size>0.80 0.52 0.20</size></box></geometry>
+      </collision>
+      <visual name="chassis">
+        <geometry><box><size>0.80 0.52 0.20</size></box></geometry>
+        <material><ambient>0.93 0.92 0.90 1</ambient><diffuse>0.93 0.92 0.90 1</diffuse><specular>0.1 0.1 0.1 1</specular></material>
+      </visual>
+      <visual name="band">
+        <pose>0 0 0.105 0 0 0</pose>
+        <geometry><box><size>0.62 0.54 0.02</size></box></geometry>
+        <material><ambient>0.094 0.392 0.671 1</ambient><diffuse>0.094 0.392 0.671 1</diffuse></material>
+      </visual>
+      <visual name="mast">
+        <pose>0.22 0 0.24 0 0 0</pose>
+        <geometry><cylinder><radius>0.025</radius><length>0.26</length></cylinder></geometry>
+        <material><ambient>0.15 0.15 0.16 1</ambient><diffuse>0.15 0.15 0.16 1</diffuse></material>
+      </visual>
+      <visual name="sensor_head">
+        <pose>0.24 0 0.38 0 0 0</pose>
+        <geometry><box><size>0.10 0.18 0.07</size></box></geometry>
+        <material><ambient>0.15 0.15 0.16 1</ambient><diffuse>0.15 0.15 0.16 1</diffuse></material>
+      </visual>
+      <visual name="wheel_fl"><pose>0.24 0.32 -0.04 1.5708 0 0</pose><geometry><cylinder><radius>0.14</radius><length>0.08</length></cylinder></geometry><material><ambient>0.13 0.13 0.14 1</ambient><diffuse>0.13 0.13 0.14 1</diffuse></material></visual>
+      <visual name="wheel_fr"><pose>0.24 -0.32 -0.04 1.5708 0 0</pose><geometry><cylinder><radius>0.14</radius><length>0.08</length></cylinder></geometry><material><ambient>0.13 0.13 0.14 1</ambient><diffuse>0.13 0.13 0.14 1</diffuse></material></visual>
+      <visual name="wheel_rl"><pose>-0.24 0.32 -0.04 1.5708 0 0</pose><geometry><cylinder><radius>0.14</radius><length>0.08</length></cylinder></geometry><material><ambient>0.13 0.13 0.14 1</ambient><diffuse>0.13 0.13 0.14 1</diffuse></material></visual>
+      <visual name="wheel_rr"><pose>-0.24 -0.32 -0.04 1.5708 0 0</pose><geometry><cylinder><radius>0.14</radius><length>0.08</length></cylinder></geometry><material><ambient>0.13 0.13 0.14 1</ambient><diffuse>0.13 0.13 0.14 1</diffuse></material></visual>
+    </link>
+
+    <plugin filename="gz-sim-velocity-control-system" name="gz::sim::systems::VelocityControl">
+      <topic>/model/rover_1/cmd_vel</topic>
+    </plugin>
+    <!-- Ground-truth pose in the world frame (labelled "simulated" in the UI). -->
+    <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+      <odom_frame>world</odom_frame>
+      <robot_base_frame>rover_1</robot_base_frame>
+      <odom_publish_frequency>20</odom_publish_frequency>
+      <odom_topic>/model/rover_1/odometry</odom_topic>
+      <dimensions>2</dimensions>
+    </plugin>
+  </model>
+</sdf>

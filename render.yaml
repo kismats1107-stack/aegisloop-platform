@@ -1,0 +1,31 @@
+# Render blueprint: one free web service serves the website (dist/) and the sign-in + Nexconn API.
+# Secrets are entered in the Render dashboard (sync: false) and never committed.
+services:
+  - type: web
+    name: aegisloop
+    runtime: node
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: node server/nexconn-server.mjs
+    healthCheckPath: /api/nx/status
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: NEXCONN_REGION
+        value: sg
+      - key: NEXCONN_APP_KEY
+        sync: false
+      - key: NEXCONN_APP_SECRET
+        sync: false
+      - key: AEGIS_SESSION_SECRET
+        generateValue: true
+      - key: AEGIS_CODE_OPS_COMMANDER
+        sync: false
+      - key: AEGIS_CODE_FIELD_LEAD
+        sync: false
+      - key: AEGIS_CODE_UAV_PILOT
+        sync: false
+      - key: AEGIS_CODE_UGV_OPERATOR
+        sync: false
+      - key: AEGIS_CODE_MEDICAL_LIAISON
+        sync: false
