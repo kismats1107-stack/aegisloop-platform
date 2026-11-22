@@ -24,7 +24,7 @@ Copy `.env.example` to `.env` and fill in the Nexconn keys and one access code p
 The console asks for sign-in every time it opens. Five team members (Ops Commander, Field Lead, UAV Pilot, UGV Operator,
 Medical Liaison) each have a personal access code (`AEGIS_CODE_<ROLE>`), checked on the server and never sent to the browser.
 A correct code returns a signed 12-hour session; Nexconn chat tokens and bot events require it. Only the Ops Commander can
-approve plans. Wrong codes are rate-limited (5 per member, 20 per client address, per 10 minutes).
+approve plans.
 
 ## Deploy (Render, free)
 

@@ -52,10 +52,6 @@ function verifySession(req) {
   if (sig.length !== want.length || !timingSafeEqual(Buffer.from(sig), Buffer.from(want))) return null;
   try { const p = JSON.parse(Buffer.from(body, "base64url").toString()); if (p.exp < Date.now()) return null; return ROSTER.find((u) => u.id === p.id) ?? null; } catch { return null; }
 }
-// slow down guessing: at most 5 failed codes per member, 20 per client address (a team may share one network), per 10 minutes
-const fails = new Map();
-const tooMany = (k) => { const now = Date.now(), a = (fails.get(k) || []).filter((t) => now - t < 600000); fails.set(k, a); return a.length >= (k.startsWith("ip:") ? 20 : 5); };
-const fail = (k) => fails.set(k, [...(fails.get(k) || []), Date.now()]);
 
 const EVENT_KINDS = new Set(["survey_started", "survey_complete", "finding", "plan_proposed", "plan_approved", "arrived", "inspection_complete", "record_sealed", "mission_reset", "incident", "target_next"]);
 
@@ -138,11 +134,10 @@ createServer(async (req, res) => {
     if (req.method === "GET" && url.pathname === "/api/nx/status") return send(res, 200, info());
     if (req.method === "POST" && url.pathname === "/api/nx/login") {
       const { userId, code } = await readJson(req);
-      const u = ROSTER.find((r) => r.id === userId), ip = "ip:" + ((PROD && String(req.headers["x-forwarded-for"] || "").split(",")[0].trim()) || req.socket.remoteAddress || "?");
+      const u = ROSTER.find((r) => r.id === userId);
       if (!u || typeof code !== "string") return send(res, 400, { error: "Choose your role and enter your access code." });
       if (!codeOf(u.id)) return send(res, 503, { error: "Sign-in is not set up on the server (AEGIS_CODE_* in .env)." });
-      if (tooMany(u.id) || tooMany(ip)) return send(res, 429, { error: "Too many wrong codes. Wait 10 minutes and try again." });
-      if (!sameCode(code, codeOf(u.id))) { fail(u.id); fail(ip); return send(res, 401, { error: "Wrong access code for this role." }); }
+      if (!sameCode(code, codeOf(u.id))) return send(res, 401, { error: "Wrong access code for this role." });
       return send(res, 200, { session: issueSession(u), user: u, expiresIn: SESSION_TTL / 1000 });
     }
     if (req.method === "GET" && url.pathname === "/api/nx/me") {
