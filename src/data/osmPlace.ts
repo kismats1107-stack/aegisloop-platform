@@ -41,10 +41,11 @@ async function build(hit: PlaceHit, size: number): Promise<CaseData> {
   let json: { elements: OsmWay[] } | null = null, lastErr = "";
   for (const ep of OVERPASS) {
     try {
-      const r = await fetch(ep, { method: "POST", body: new URLSearchParams({ data: q }) });
+      // a busy mirror can hang: give each one 40 s, then try the next
+      const r = await fetch(ep, { method: "POST", body: new URLSearchParams({ data: q }), signal: AbortSignal.timeout(40000) });
       if (!r.ok) { lastErr = `${r.status}`; continue; }
       json = await r.json(); break;
-    } catch (e) { lastErr = (e as Error).message; }
+    } catch (e) { lastErr = (e as Error).name === "TimeoutError" ? "timed out" : (e as Error).message; }
   }
   if (!json) throw new Error(`OpenStreetMap data service unavailable (${lastErr}). Try again in a minute.`);
 

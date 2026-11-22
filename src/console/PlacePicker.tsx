@@ -48,7 +48,7 @@ export function PlacePicker({ current, onClose, onAntakya, onLoaded }: { current
               {hits.map((h) => (
                 <li key={h.display}><button onClick={() => void pick(h)} disabled={!!busy}>
                   <MapPin size={14} aria-hidden /><div><b>{h.name}</b><small>{h.display}</small></div>
-                  {busy === h.display && <span className="pp-load"><Loader2 size={14} className="spin" />Loading buildings and roads…</span>}
+                  {busy === h.display && <span className="pp-load"><Loader2 size={14} className="spin" />Loading buildings and roads from OpenStreetMap (up to a minute)…</span>}
                 </button></li>
               ))}
             </ul>
