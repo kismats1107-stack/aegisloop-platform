@@ -797,17 +797,15 @@ export class Mission {
   /** Live: the authority must accept the approval first. Returns false when it is rejected. */
   async approve(by: string = OPERATOR, role = "ops-commander"): Promise<boolean> {
     if (this.phase !== "awaiting_approval" || !this.plan) return false;
-    if (!this.ugvLink.ok) {
-      this.plan.rejected = { link: { ok: false, detail: "No command path to UGV-1: direct ground link down and no UAV-1 relay" } };
-      this.log("comms", "Dispatch blocked", `${this.plan.id} approved by ${by} but cannot reach UGV-1 · approval not consumed`);
-      this.emit(); return false;
-    }
+    // no command path right now: the approval still stands; UGV-1 holds (fail-safe) and starts as soon as a link returns
+    const noLink = !this.ugvLink.ok;
     if (this.live) {
       const plan = this.plan;
       const res: ApproveResult = await this.live.approve({ planId: plan.id, version: plan.version, hash: plan.hash, approverRole: role });
       if (!res.ok) { plan.rejected = res.checks; this.emit(); return false; }
       plan.rejected = undefined; plan.approval = res.checks;
     }
+    this.plan.rejected = undefined;
     this.approvedHash = this.plan.hash;
     this.approvedBy = by;
     this.plan.approvedBy = by;
@@ -819,6 +817,7 @@ export class Mission {
     this.rover.status = `En route to ${this.target.label}`;
     this.incident = null;
     this.log(by, "Plan approved", `${this.plan.id} v${this.plan.version} bound to hash`, this.plan.hash);
+    if (noLink) this.log("comms", "Waiting for command link", `${this.plan.id} approved · UGV-1 out of direct ground range and the UAV-1 relay is not up yet · it starts automatically when a link returns`);
     this.log("husky-a300", "Route accepted", `Executing ${Math.round(route.length)} m at ${HUSKY_PLAN_SPEED.toFixed(1)} m/s${this.live ? " · FollowPath goal on /ugv/follow_path (Gazebo)" : ""}`);
     this.emit();
     return true;

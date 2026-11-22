@@ -783,6 +783,7 @@ function PlanView({ mission, member, onTeam, onCard }: { mission: Mission; membe
       ) : approved ? (
         <>
           <p className="cx-note">Approved by {mission.approvedBy ?? OPERATOR}.{mission.live ? " Verified by the mission authority and dispatched to /ugv/follow_path." : ""}</p>
+          {mission.phase === "executing" && !mission.ugvLink.ok && <div className="cx-alert warn-link"><AlertTriangle size={16} aria-hidden /><div><b>Waiting for a command link</b><p>UGV-1 is out of direct ground range and the UAV-1 relay is not up (the drone may be swapping its battery). UGV-1 holds and starts by itself when a link returns. See the Comms page.</p></div></div>}
           {plan.approval && <Checks checks={plan.approval} title="Authority verification at approval" />}
         </>
       ) : null}

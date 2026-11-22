@@ -109,3 +109,4 @@
 @media (max-width: 1280px) { .cx-who-n { display: none; } }
 .cx-legend-flood { grid-column: 1 / -1; } .cx-legend .sw-flood { width: 34px; height: 8px; border-radius: 2px; background: linear-gradient(90deg, #d6c496, #a88c5c, #625440); }
 .pp-load { grid-column: 2; margin-top: 4px; }
+.cx-alert.warn-link { background: var(--warn-soft); color: #7a4300; } .cx-alert.warn-link svg { color: #b06000; }
